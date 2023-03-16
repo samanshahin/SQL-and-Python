@@ -5,13 +5,11 @@ There are more just one easy way to handle databases in python. From using pytho
 Note: We are not considering on your database architecture and how tables are connected together. That's a different issue and we're not getting into that discussion. Briefly, there are more tools that you can use to visualize your db structure and analyze it. 
 
 ## Section 1. Python features known as python collections (arrays) including:
-
 In all these features, you can access to a member like this:
 ```
 x = mylist[0]
 ```
-#### - List
-
+#### List
 List is a collection which is ordered and changeable. Allows duplicate members.
 ```
 mylist = ["apple", 12, true]
@@ -20,7 +18,6 @@ Or
 ```
 mylist = list(("apple", 12, true))
 ```
-
 **List Methods:**
 - append(): Adds an element at the end of the list
 - clear(): Removes all the elements from the list
@@ -34,7 +31,7 @@ mylist = list(("apple", 12, true))
 - reverse(): Reverses the order of the list
 - sort(): Sorts the list
 
-#### - Set
+#### Set
 Set is a collection which is unordered, unchangeable*, and unindexed. No duplicate members.
 ```
 myset = {"apple", "banana", "cherry"}
@@ -45,7 +42,7 @@ myself = set(("apple", "banana", "cherry"))
 ```
 Note: As it does not allow duplicates, the values True and 1 are considered the same value in sets, and are treated as duplicates.
 
-#### - Dictionary
+#### Dictionary
 A dictionary is a collection which is unordered, changeable and indexed (it means do not allow duplicates):
 ```
 x = dict(key1="value1", key2=3, key3="val3")
@@ -59,7 +56,7 @@ thisdict = {
   "colors": ["red", "white", "blue"]
 }
 ```
-#### - Tuple
+#### Tuple
 It is a collection which is ordered and unchangeable. Allows duplicate members.
 ```
 mytuple = ("apple", "banana", "cherry")
@@ -338,7 +335,9 @@ How to code:
 ```
 import pymongo
 myclient = pymongo.MongoClient("serverinfo", port_num)
-# You can use this instead: mongodb://localhost:27017/")
+```
+You can use this instead: mongodb://localhost:27017/")
+```
 mydb = myclient["mydbname"]
 mycol = mydb["customers"]
 mylist = [
@@ -365,15 +364,25 @@ The other weird thing is if you specify a field with the value 0, all other fiel
 ```
 for x in mycol.find({},{ "_id": 0, "name": 1, "address": 1 }):
   print(x)
-# Or be more specific:
+```
+Or be more specific:
+```
 mycol.find({"address": "Park Lane 38"})
-# you can use modifiers as values in the query object, e.g. to find the documents where the "address" field starts with the letter "S" or higher (alphabetically), use the greater than modifier: {"$gt": "S"}:
+```
+you can use modifiers as values in the query object, e.g. to find the documents where the "address" field starts with the letter "S" or higher (alphabetically), use the greater than modifier: {"$gt": "S"}:
+```
 mycol.find({ "address": { "$gt": "S" } })
-# Or filter with regular expression:
+```
+Or filter with regular expression:
+```
 mycol.find({ "address": { "$regex": "^S" } })
-# For sorting data:
+```
+For sorting data:
+```
 mycol.find().sort("name", 1) #for asc and -1 for desc
-# For deleting data:
+```
+For deleting data:
+```
 myquery = { "address": "Mountain 21" }
 mycol.delete_one(myquery)
 ```
@@ -383,11 +392,15 @@ myquery = { "address": {"$regex": "^S"} }
 x = mycol.delete_many(myquery)
 If(x.deleted_count>1): 
    print("documents deleted.")
-# For updating one or many douments:
+```
+For updating one or many douments:
+```
 myquery = { "address": "Valley 345" }
 newvalues = { "$set": { "address": "Canyon 123" } }
 mycol.update_one(myquery, newvalues)
-# And for many:
+```
+And for many:
+```
 myquery = { "address": { "$regex": "^S" } }
 newvalues = { "$set": { "name": "Minnie" } }
 x = mycol.update_many(myquery, newvalues)
